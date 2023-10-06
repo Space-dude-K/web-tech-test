@@ -44,6 +44,8 @@ namespace WebApi
 
                 app.Run();
             }
+            // Ignore migrations
+            catch(HostAbortedException) { }
             catch(Exception exception)
             {
                 // NLog: catch setup errors

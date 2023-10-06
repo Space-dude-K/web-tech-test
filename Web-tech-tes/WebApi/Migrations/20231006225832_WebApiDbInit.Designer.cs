@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(WebApiDbContext))]
-    [Migration("20231006225352_WebApiDbInit")]
+    [Migration("20231006225832_WebApiDbInit")]
     partial class WebApiDbInit
     {
         /// <inheritdoc />
