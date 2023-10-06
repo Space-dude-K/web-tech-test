@@ -1,6 +1,5 @@
-using Entities;
-using Entities.Models;
-using Microsoft.AspNetCore.Identity;
+using NLog;
+using NLog.Web;
 using WebApi.Extensions;
 
 namespace WebApi
@@ -9,37 +8,53 @@ namespace WebApi
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            // Early init of NLog to allow startup and exception logging, before host is built
+            var logger = LogManager
+                .Setup()
+                .LoadConfigurationFromAppSettings()
+                .GetCurrentClassLogger();
 
-            // Add services to the container.
+            logger.Debug("Init main");
 
-            builder.Services.ConfigureSqlContext(builder.Configuration);
+            try
+            {
+                var builder = WebApplication.CreateBuilder(args);
 
-            // Add identity types
-            /*builder.Services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<WebApiDbContext>()
-                .AddDefaultTokenProviders();*/
+                builder.Services.ConfigureSqlContext(builder.Configuration);
+                builder.Services.AddAutoMapper(typeof(Program));
+                builder.Services.ConfigureRepositoryManager();
+                builder.Services.ConfigureValidationsFilters();
+
+                builder.Services.AddControllers();
+
+                // NLog: Setup NLog for Dependency injection
+                builder.Logging.ClearProviders();
+                builder.Host.UseNLog();
+
+                var app = builder.Build();
+
+                // Configure the HTTP request pipeline.
+
+                app.UseHttpsRedirection();
+
+                app.UseAuthorization();
 
 
-            
+                app.MapControllers();
 
-
-
-
-            builder.Services.AddControllers();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+                app.Run();
+            }
+            catch(Exception exception)
+            {
+                // NLog: catch setup errors
+                logger.Error(exception, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                LogManager.Shutdown();
+            } 
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Drawing;
 
 namespace Entities.Configurations
 {
@@ -20,6 +21,7 @@ namespace Entities.Configurations
                 .IsRequired();
             builder.Property(p => p.Email)
                 .HasColumnType("NVARCHAR")
+                .HasMaxLength(256)
                 .IsRequired();
             builder.Property(p => p.Age)
                 .HasColumnType("INTEGER")
@@ -28,10 +30,6 @@ namespace Entities.Configurations
             builder
                 .HasKey(p => p.Id)
                 .HasName("PK_User");
-
-            builder
-                .HasMany(p => p.Roles)
-                .WithMany(p => p.Users);
         }
     }
 }

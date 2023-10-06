@@ -1,5 +1,9 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using NLog;
+using Repository;
+using WebApi.ActionFilters;
 
 namespace WebApi.Extensions
 {
@@ -11,6 +15,14 @@ namespace WebApi.Extensions
                 opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"),
                 b => b.MigrationsAssembly("WebApi")
             ));
+        }
+        public static void ConfigureRepositoryManager(this IServiceCollection services)
+        {
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
+        }
+        public static void ConfigureValidationsFilters(this IServiceCollection services)
+        {
+            services.AddScoped<ValidateMediaTypeAttribute>();
         }
     }
 }

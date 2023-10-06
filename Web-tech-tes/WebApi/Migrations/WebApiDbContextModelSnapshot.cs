@@ -76,6 +76,7 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasMaxLength(256)
                         .HasColumnType("NVARCHAR");
 
                     b.Property<string>("Name")
@@ -88,34 +89,77 @@ namespace WebApi.Migrations
                         .HasName("PK_User");
 
                     b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Age = 20,
+                            Email = "test@mail.ru",
+                            Name = "Ivan"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Age = 22,
+                            Email = "test1@mail.ru",
+                            Name = "Petr"
+                        });
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("UserRole", b =>
                 {
-                    b.Property<int>("RolesId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UsersId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("RolesId", "UsersId");
+                    b.HasKey("RoleId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("UserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            RoleId = 4,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            UserId = 2
+                        });
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("UserRole", b =>
                 {
                     b.HasOne("Entities.Models.Role", null)
                         .WithMany()
-                        .HasForeignKey("RolesId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

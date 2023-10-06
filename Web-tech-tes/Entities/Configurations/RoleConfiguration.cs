@@ -23,12 +23,19 @@ namespace Entities.Configurations
                 .HasKey(p => p.Id)
                 .HasName("PK_Role");
 
-            builder.HasData(
-                new Role() { Id = 1, Name = "User" },
-                new Role() { Id = 2, Name = "Admin" },
-                new Role() { Id = 3, Name = "Support" },
-                new Role() { Id = 4, Name = "SuperAdmin" }
-                );
+            builder
+                .HasMany(p => p.Users)
+                .WithMany(p => p.Roles)
+                .UsingEntity<Dictionary<string, object>>(
+                "UserRole",
+                j => j
+                    .HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey("UserId"),
+                j => j
+                    .HasOne<Role>()
+                    .WithMany()
+                    .HasForeignKey("RoleId"));
         }
     }
 }
