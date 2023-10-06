@@ -3,6 +3,7 @@ using Entities.Models;
 using Entities.RequestFeatures;
 using Entities.RequestFeatures.User;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 
 namespace Repository
 {
@@ -35,14 +36,10 @@ namespace Repository
         }
         public async Task<PagedList<User>> GetUsersWithRolesAsync(UserParameters userParameters, bool trackChanges)
         {
-            var users = await FindByCondition(u => 
-                u.Id >= userParameters.MinId && u.Id <= userParameters.MaxId && 
-                u.Name.Length >= userParameters.MinNameLength && u.Name.Length <= userParameters.MaxNameLength &&
-                u.Email.Length >= userParameters.MinEmailLength && u.Email.Length <= userParameters.MaxEmailLength &&
-                u.Age >= userParameters.MinAge && u.Age <= userParameters.MaxAge,
-                trackChanges)
+            var users = await FindAll(trackChanges)
+             .FilterUsers(userParameters)
              .Include(e => e.Roles)
-             .OrderBy(e => e.Name)
+             .Sort(userParameters.OrderBy)
              .ToListAsync();
 
             return PagedList<User>
