@@ -11,5 +11,6 @@ namespace Repository
         void CreateUser(User user);
         void DeleteUser(User user);
         void UpdateUser(User user);
+        Task<PagedList<User>> GetUsersWithRolesAsync(UserParameters userParameters, bool trackChanges);
     }
 }

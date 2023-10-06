@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(WebApiDbContext))]
-    [Migration("20231006113759_WebApiInit")]
-    partial class WebApiInit
+    [Migration("20231006225352_WebApiDbInit")]
+    partial class WebApiDbInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,8 +105,29 @@ namespace WebApi.Migrations
                         {
                             Id = 2,
                             Age = 22,
-                            Email = "test1@mail.ru",
+                            Email = "basd@mail.ru",
                             Name = "Petr"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Age = 31,
+                            Email = "asd@mail.ru",
+                            Name = "Konstantin"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Age = 21,
+                            Email = "fasd@mail.ru",
+                            Name = "Alex"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Age = 22,
+                            Email = "basd@mail.ru",
+                            Name = "Steve"
                         });
                 });
 
@@ -149,6 +170,21 @@ namespace WebApi.Migrations
                         {
                             RoleId = 1,
                             UserId = 2
+                        },
+                        new
+                        {
+                            RoleId = 4,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            RoleId = 4,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            UserId = 5
                         });
                 });
 

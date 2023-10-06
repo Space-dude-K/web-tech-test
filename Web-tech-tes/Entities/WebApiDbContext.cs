@@ -36,7 +36,10 @@ namespace Entities
             var users = new List<User>()
             {
                 new User() { Id = 1, Age = 20, Email = "test@mail.ru", Name = "Ivan" },
-                new User() { Id = 2, Age = 22, Email = "test1@mail.ru", Name = "Petr" }
+                new User() { Id = 2, Age = 22, Email = "basd@mail.ru", Name = "Petr" },
+                new User() { Id = 3, Age = 31, Email = "asd@mail.ru", Name = "Konstantin" },
+                new User() { Id = 4, Age = 21, Email = "fasd@mail.ru", Name = "Alex" },
+                new User() { Id = 5, Age = 22, Email = "basd@mail.ru", Name = "Steve" }
             };
             modelBuilder.Entity<User>().HasData(users);
 
@@ -46,7 +49,10 @@ namespace Entities
                 new { RoleId = 2, UserId = 1 },
                 new { RoleId = 3, UserId = 1 },
                 new { RoleId = 4, UserId = 1 },
-                new { RoleId = 1, UserId = 2 }
+                new { RoleId = 1, UserId = 2 },
+                new { RoleId = 4, UserId = 3 },
+                new { RoleId = 4, UserId = 4 },
+                new { RoleId = 1, UserId = 5 }
                 );
         }
         public DbSet<User> Users { get; set; }

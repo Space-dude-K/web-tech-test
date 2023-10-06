@@ -7,7 +7,7 @@
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class WebApiInit : Migration
+    public partial class WebApiDbInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,7 +81,10 @@ namespace WebApi.Migrations
                 values: new object[,]
                 {
                     { 1, 20, "test@mail.ru", "Ivan" },
-                    { 2, 22, "test1@mail.ru", "Petr" }
+                    { 2, 22, "basd@mail.ru", "Petr" },
+                    { 3, 31, "asd@mail.ru", "Konstantin" },
+                    { 4, 21, "fasd@mail.ru", "Alex" },
+                    { 5, 22, "basd@mail.ru", "Steve" }
                 });
 
             migrationBuilder.InsertData(
@@ -91,9 +94,12 @@ namespace WebApi.Migrations
                 {
                     { 1, 1 },
                     { 1, 2 },
+                    { 1, 5 },
                     { 2, 1 },
                     { 3, 1 },
-                    { 4, 1 }
+                    { 4, 1 },
+                    { 4, 3 },
+                    { 4, 4 }
                 });
 
             migrationBuilder.CreateIndex(

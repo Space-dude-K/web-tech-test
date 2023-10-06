@@ -1,4 +1,6 @@
-﻿namespace Entities.DTO
+﻿using Entities.Models;
+
+namespace Entities.DTO
 {
     public class UserDTO
     {
@@ -6,5 +8,6 @@
         public string Name { get; set; }
         public int Age { get; set; }
         public string Email { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

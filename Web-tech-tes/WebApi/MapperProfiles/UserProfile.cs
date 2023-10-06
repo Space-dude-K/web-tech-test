@@ -9,7 +9,10 @@ namespace WebApi.MapperProfiles
         public UserProfile()
         {
             CreateMap<User, UserDTO>();
-            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<Role, string>()
+                .ConvertUsing(src => src.Name);
+            CreateMap<User, UserDTO>()
+                .ReverseMap();
         }
     }
 }

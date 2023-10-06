@@ -40,7 +40,7 @@ namespace WebApi.Controllers
             _logger.LogInformation($"Get users request with params");
 
             var usersFromDb = await _repository.Users
-                .GetUsersAsync(userParameters, trackChanges: false);
+                .GetUsersWithRolesAsync(userParameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(usersFromDb.MetaData));
 
