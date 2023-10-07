@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Entities.RequestFeatures.Role;
 using Entities.RequestFeatures.User;
 using System.Linq.Dynamic.Core;
 
@@ -9,10 +10,15 @@ namespace Repository.Extensions
         public static IQueryable<User> FilterUsers(this IQueryable<User> users, UserParameters userParameters)
         {
             return users.Where(u => 
-            u.Id >= userParameters.MinId && u.Id <= userParameters.MaxId &&
-            u.Name.Length >= userParameters.MinNameLength && u.Name.Length <= userParameters.MaxNameLength &&
+            u.Id >= userParameters.MinUserId && u.Id <= userParameters.MaxUserId &&
+            u.Name.Length >= userParameters.MinUserNameLength && u.Name.Length <= userParameters.MaxUserNameLength &&
             u.Email.Length >= userParameters.MinEmailLength && u.Email.Length <= userParameters.MaxEmailLength &&
             u.Age >= userParameters.MinAge && u.Age <= userParameters.MaxAge);
+        }
+        public static IQueryable<User> FilterUserRoles(this IQueryable<User> users, RoleParameters roleParameters)
+        {
+            return users.Where(u => u.Roles.All(r => r.Id >= roleParameters.MinRoleId && r.Id <= roleParameters.MaxRoleId && 
+            r.Name.Length >= roleParameters.MinRoleNameLength && r.Name.Length <= roleParameters.MaxRoleNameLength));
         }
         public static IQueryable<User> Sort(this IQueryable<User> users, string orderByQueryString)
         {

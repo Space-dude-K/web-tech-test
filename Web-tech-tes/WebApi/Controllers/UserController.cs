@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities.DTO;
+using Entities.RequestFeatures.Role;
 using Entities.RequestFeatures.User;
 using LoggerService;
 using Microsoft.AspNetCore.Mvc;
@@ -35,12 +36,12 @@ namespace WebApi.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        public async Task<IActionResult> GetUsers([FromQuery] UserParameters userParameters)
+        public async Task<IActionResult> GetUsers([FromQuery] UserParameters userParameters, [FromQuery] RoleParameters roleParameters)
         {
             _logger.LogInformation($"Get users request with params");
 
             var usersFromDb = await _repository.Users
-                .GetUsersWithRolesAsync(userParameters, trackChanges: false);
+                .GetUsersWithRolesAsync(userParameters, roleParameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(usersFromDb.MetaData));
 

@@ -125,6 +125,13 @@ namespace WebApi.Migrations
                             Age = 22,
                             Email = "basd@mail.ru",
                             Name = "Steve"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Age = 22,
+                            Email = "basd@mail.ru",
+                            Name = "Steve"
                         });
                 });
 
@@ -182,6 +189,11 @@ namespace WebApi.Migrations
                         {
                             RoleId = 1,
                             UserId = 5
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            UserId = 6
                         });
                 });
 

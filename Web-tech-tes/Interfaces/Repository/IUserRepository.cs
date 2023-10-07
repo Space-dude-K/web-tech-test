@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Entities.RequestFeatures;
+using Entities.RequestFeatures.Role;
 using Entities.RequestFeatures.User;
 
 namespace Repository
@@ -11,6 +12,9 @@ namespace Repository
         void CreateUser(User user);
         void DeleteUser(User user);
         void UpdateUser(User user);
-        Task<PagedList<User>> GetUsersWithRolesAsync(UserParameters userParameters, bool trackChanges);
+        Task<PagedList<User>> GetUsersWithRolesAsync(
+            UserParameters userParameters, 
+            RoleParameters roleParameters, 
+            bool trackChanges);
     }
 }

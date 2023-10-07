@@ -2,13 +2,13 @@
 {
     public class UserParameters : RequestParameters
     {
-        public int MinId { get; set; }
-        public int MaxId { get; set; } = int.MaxValue;
-        public bool ValidIdRange => MaxId > MinId;
+        public int MinUserId { get; set; }
+        public int MaxUserId { get; set; } = int.MaxValue;
+        public bool ValidIdRange => MaxUserId > MinUserId;
 
-        public int MinNameLength { get; set; }
-        public int MaxNameLength { get; set; } = int.MaxValue;
-        public bool ValidNameRange => MaxNameLength > MinNameLength;
+        public int MinUserNameLength { get; set; }
+        public int MaxUserNameLength { get; set; } = int.MaxValue;
+        public bool ValidNameRange => MaxUserNameLength > MinUserNameLength;
 
         public uint MinAge { get; set; }
         public uint MaxAge { get; set; } = int.MaxValue;

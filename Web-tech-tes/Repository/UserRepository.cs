@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Entities.RequestFeatures.Role;
 using Entities.RequestFeatures.User;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
@@ -34,11 +35,15 @@ namespace Repository
             return PagedList<User>
                 .ToPagedList(users, userParameters.PageNumber, userParameters.PageSize);
         }
-        public async Task<PagedList<User>> GetUsersWithRolesAsync(UserParameters userParameters, bool trackChanges)
+        public async Task<PagedList<User>> GetUsersWithRolesAsync(
+            UserParameters userParameters, 
+            RoleParameters roleParameters, 
+            bool trackChanges)
         {
             var users = await FindAll(trackChanges)
              .FilterUsers(userParameters)
              .Include(e => e.Roles)
+             .FilterUserRoles(roleParameters)
              .Sort(userParameters.OrderBy)
              .ToListAsync();
 
