@@ -84,8 +84,9 @@ namespace WebApi.Migrations
                     { 2, 22, "basd@mail.ru", "Petr" },
                     { 3, 31, "asd@mail.ru", "Konstantin" },
                     { 4, 21, "fasd@mail.ru", "Alex" },
-                    { 5, 22, "basd@mail.ru", "Steve" },
-                    { 6, 22, "basd@mail.ru", "Steve" }
+                    { 5, 22, "bbsd@mail.ru", "Steve" },
+                    { 6, 22, "basd@mail.ru", "Steve" },
+                    { 7, 22, "basd@mail.ru", "Steve" }
                 });
 
             migrationBuilder.InsertData(
@@ -98,6 +99,7 @@ namespace WebApi.Migrations
                     { 1, 5 },
                     { 2, 1 },
                     { 2, 6 },
+                    { 2, 7 },
                     { 3, 1 },
                     { 4, 1 },
                     { 4, 3 },

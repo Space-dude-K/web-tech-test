@@ -44,7 +44,7 @@ namespace Repository
              .FilterUsers(userParameters)
              .Include(e => e.Roles)
              .FilterUserRoles(roleParameters)
-             .Sort(userParameters.OrderBy)
+             .SortUsers(userParameters.OrderBy)
              .ToListAsync();
 
             return PagedList<User>

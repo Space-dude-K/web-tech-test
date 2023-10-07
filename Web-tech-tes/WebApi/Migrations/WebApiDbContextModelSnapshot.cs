@@ -123,12 +123,19 @@ namespace WebApi.Migrations
                         {
                             Id = 5,
                             Age = 22,
-                            Email = "basd@mail.ru",
+                            Email = "bbsd@mail.ru",
                             Name = "Steve"
                         },
                         new
                         {
                             Id = 6,
+                            Age = 22,
+                            Email = "basd@mail.ru",
+                            Name = "Steve"
+                        },
+                        new
+                        {
+                            Id = 7,
                             Age = 22,
                             Email = "basd@mail.ru",
                             Name = "Steve"
@@ -194,6 +201,11 @@ namespace WebApi.Migrations
                         {
                             RoleId = 2,
                             UserId = 6
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            UserId = 7
                         });
                 });
 

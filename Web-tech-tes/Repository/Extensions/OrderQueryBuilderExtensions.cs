@@ -15,7 +15,8 @@ namespace Repository.Extensions
             {
                 if (string.IsNullOrWhiteSpace(param))
                     continue;
-                var propertyFromQueryName = param.Split(" ")[0];
+
+                var propertyFromQueryName = param.Trim().Split(" ")[0];
                 var objectProperty = propertyInfos.FirstOrDefault(pi => pi.Name.Equals(propertyFromQueryName, 
                     StringComparison.InvariantCultureIgnoreCase));
 
@@ -26,6 +27,7 @@ namespace Repository.Extensions
 
                 orderQueryBuilder.Append($"{objectProperty.Name.ToString()} {direction},");
             }
+
             var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
 
             return orderQuery;

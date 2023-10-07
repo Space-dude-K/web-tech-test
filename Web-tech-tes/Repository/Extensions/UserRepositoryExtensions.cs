@@ -20,7 +20,19 @@ namespace Repository.Extensions
             return users.Where(u => u.Roles.All(r => r.Id >= roleParameters.MinRoleId && r.Id <= roleParameters.MaxRoleId && 
             r.Name.Length >= roleParameters.MinRoleNameLength && r.Name.Length <= roleParameters.MaxRoleNameLength));
         }
-        public static IQueryable<User> Sort(this IQueryable<User> users, string orderByQueryString)
+        public static IQueryable<User> SortUsers(this IQueryable<User> users, string orderByQueryString)
+        {
+            if (string.IsNullOrWhiteSpace(orderByQueryString))
+                return users.OrderBy(e => e.Name);
+
+            var orderQuery = OrderQueryBuilderExtensions.CreateOrderQuery<User>(orderByQueryString);
+
+            if (string.IsNullOrWhiteSpace(orderQuery))
+                return users.OrderBy(e => e.Name);
+
+            return users.OrderBy(orderQuery);
+        }
+        public static IQueryable<User> SortUsersAndRoles(this IQueryable<User> users, string orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
                 return users.OrderBy(e => e.Name);

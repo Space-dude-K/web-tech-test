@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(WebApiDbContext))]
-    [Migration("20231007094040_WebApiDbInit")]
+    [Migration("20231007155415_WebApiDbInit")]
     partial class WebApiDbInit
     {
         /// <inheritdoc />
@@ -126,12 +126,19 @@ namespace WebApi.Migrations
                         {
                             Id = 5,
                             Age = 22,
-                            Email = "basd@mail.ru",
+                            Email = "bbsd@mail.ru",
                             Name = "Steve"
                         },
                         new
                         {
                             Id = 6,
+                            Age = 22,
+                            Email = "basd@mail.ru",
+                            Name = "Steve"
+                        },
+                        new
+                        {
+                            Id = 7,
                             Age = 22,
                             Email = "basd@mail.ru",
                             Name = "Steve"
@@ -197,6 +204,11 @@ namespace WebApi.Migrations
                         {
                             RoleId = 2,
                             UserId = 6
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            UserId = 7
                         });
                 });
 
