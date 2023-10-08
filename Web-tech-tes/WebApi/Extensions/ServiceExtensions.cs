@@ -23,6 +23,8 @@ namespace WebApi.Extensions
         public static void ConfigureValidationsFilters(this IServiceCollection services)
         {
             services.AddScoped<ValidateMediaTypeAttribute>();
+            services.AddScoped<ValidateUserExistsAttribute>();
+            services.AddScoped<ValidateUsersExistsAttribute>();
         }
     }
 }

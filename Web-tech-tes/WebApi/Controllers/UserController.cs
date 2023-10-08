@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Entities.DTO;
+using Entities.Models;
+using Entities.RequestFeatures;
 using Entities.RequestFeatures.Role;
 using Entities.RequestFeatures.User;
 using LoggerService;
@@ -36,12 +38,10 @@ namespace WebApi.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [ServiceFilter(typeof(ValidateUsersExistsAttribute))]
         public async Task<IActionResult> GetUsers([FromQuery] UserParameters userParameters, [FromQuery] RoleParameters roleParameters)
         {
-            _logger.LogInformation($"Get users request with params");
-
-            var usersFromDb = await _repository.Users
-                .GetUsersWithRolesAsync(userParameters, roleParameters, trackChanges: false);
+            var usersFromDb = HttpContext.Items["users"] as PagedList<User>;
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(usersFromDb.MetaData));
 
@@ -56,18 +56,17 @@ namespace WebApi.Controllers
         /// <response code="200">Возращает пользователя</response>
         /// <response code="400">Если отсутствует Accept header</response>
         /// <response code="401">Если неавторизован</response>
+        /// <response code="404">Если пользователя нет в БД</response>
         [HttpGet("{userId}", Name = "GetUser")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [ServiceFilter(typeof(ValidateUserExistsAttribute))]
         public async Task<IActionResult> GetUser(int userId)
         {
-            _logger.LogInformation($"Get users request with params");
-
-            var userFromDb = await _repository.Users
-                .GetUserAsync(userId, trackChanges: false);
-
+            var userFromDb = HttpContext.Items["user"] as User;
             var userDto = _mapper.Map<UserDTO>(userFromDb);
 
             return Ok(userDto);
