@@ -44,7 +44,7 @@ namespace Repository
              .FilterUsers(userParameters)
              .Include(e => e.Roles.OrderBy(r => r.Name))
              .FilterUserRoles(roleParameters)
-             .SortUsersThenRoles(userParameters.OrderBy)
+             .SortUsersThenByRoles(userParameters.OrderBy)
              .ToListAsync();
 
             return PagedList<User>
@@ -54,6 +54,7 @@ namespace Repository
         public async Task<User> GetUserAsync(int userId, bool trackChanges)
         {
             return await FindByCondition(user => user.Id == userId, trackChanges)
+                .Include(e => e.Roles.OrderBy(r => r.Name))
              .SingleOrDefaultAsync();
         }
     }

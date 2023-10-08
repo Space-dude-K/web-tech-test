@@ -49,5 +49,28 @@ namespace WebApi.Controllers
 
             return Ok(userDto);
         }
+        /// <summary>
+        /// Получаем пользователя по Id
+        /// </summary>
+        /// <returns>Пользователь</returns>
+        /// <response code="200">Возращает пользователя</response>
+        /// <response code="400">Если отсутствует Accept header</response>
+        /// <response code="401">Если неавторизован</response>
+        [HttpGet("{userId}", Name = "GetUser")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        public async Task<IActionResult> GetUser(int userId)
+        {
+            _logger.LogInformation($"Get users request with params");
+
+            var userFromDb = await _repository.Users
+                .GetUserAsync(userId, trackChanges: false);
+
+            var userDto = _mapper.Map<UserDTO>(userFromDb);
+
+            return Ok(userDto);
+        }
     }
 }

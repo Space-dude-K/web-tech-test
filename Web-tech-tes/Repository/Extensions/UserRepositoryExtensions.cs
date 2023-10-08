@@ -38,7 +38,7 @@ namespace Repository.Extensions
 
             return users.OrderBy(orderQuery);
         }
-        public static IQueryable<User> SortUsersThenRoles(this IQueryable<User> users, string orderByQueryString)
+        public static IQueryable<User> SortUsersThenByRoles(this IQueryable<User> users, string orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
                 return users.OrderBy(e => e.Name).ThenBy(e => e.Roles.FirstOrDefault().Name);
@@ -56,13 +56,21 @@ namespace Repository.Extensions
                     .StartsWith("Roles", StringComparison.CurrentCultureIgnoreCase))
                 .Select(q => string.Join(" ", q.Split(" ").Skip(1))).ToArray());
 
-            var orderQuery = OrderQueryBuilderExtensions.CreateOrderQuery<User>(orderByRoleQueryStrForUsers);
+            var orderQueryForUsers = OrderQueryBuilderExtensions
+                .CreateOrderQuery<User>(orderByRoleQueryStrForUsers);
 
-            if (string.IsNullOrWhiteSpace(orderQuery))
-                return users.OrderBy(e => e.Name).ThenBy(e => e.Roles.FirstOrDefault().Name);
+            if(string.IsNullOrWhiteSpace(orderByRoleQueryStrForRoles) && 
+                !string.IsNullOrWhiteSpace(orderQueryForUsers))
+            {
+                return users.OrderBy(orderQueryForUsers);
+            }
 
-            if (string.IsNullOrWhiteSpace(orderByRoleQueryStrForRoles))
-                return users.OrderBy(e => e.Name);
+            if(string.IsNullOrWhiteSpace(orderQueryForUsers) &&
+                string.IsNullOrWhiteSpace(orderByRoleQueryStrForRoles))
+            {
+                return users.OrderBy(e => e.Name)
+                    .ThenBy(e => e.Roles.FirstOrDefault().Name);
+            }
 
             var rolesOrderQuery = orderByRoleQueryStrForRoles.Split(",");
             foreach (var q in rolesOrderQuery)
@@ -74,15 +82,15 @@ namespace Repository.Extensions
                 switch (roleAtt)
                 {
                     case "Id":
-                        return users.OrderBy(orderQuery).ThenByWithDirection(e => e.Roles.FirstOrDefault().Id, isDesc);
+                        return users.OrderBy(orderQueryForUsers).ThenByWithDirection(e => e.Roles.FirstOrDefault().Id, isDesc);
                     case "Name":
-                        return users.OrderBy(orderQuery).ThenByWithDirection(e => e.Roles.FirstOrDefault().Name, isDesc);
+                        return users.OrderBy(orderQueryForUsers).ThenByWithDirection(e => e.Roles.FirstOrDefault().Name, isDesc);
                     default:
-                        return users.OrderBy(orderQuery).ThenByWithDirection(e => e.Roles.FirstOrDefault().Name, isDesc);
+                        return users.OrderBy(orderQueryForUsers).ThenByWithDirection(e => e.Roles.FirstOrDefault().Name, isDesc);
                 }
             }
 
-            return users.OrderBy(orderQuery).ThenBy(e => e.Roles.FirstOrDefault().Name);
+            return users.OrderBy(orderQueryForUsers).ThenBy(e => e.Roles.FirstOrDefault().Name);
         }
         private static IOrderedQueryable<TSource> ThenByWithDirection<TSource, TKey>(
                       this IOrderedQueryable<TSource> source,
