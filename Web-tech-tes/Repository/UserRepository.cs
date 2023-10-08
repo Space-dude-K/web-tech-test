@@ -42,9 +42,9 @@ namespace Repository
         {
             var users = await FindAll(trackChanges)
              .FilterUsers(userParameters)
-             .Include(e => e.Roles)
+             .Include(e => e.Roles.OrderBy(r => r.Name))
              .FilterUserRoles(roleParameters)
-             .SortUsers(userParameters.OrderBy)
+             .SortUsersThenRoles(userParameters.OrderBy)
              .ToListAsync();
 
             return PagedList<User>
