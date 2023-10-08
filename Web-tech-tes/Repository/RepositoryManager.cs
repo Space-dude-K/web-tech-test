@@ -1,17 +1,13 @@
 ﻿using Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
     public class RepositoryManager : IRepositoryManager
     {
         private WebApiDbContext _webApiDbContext;
+
         private IUserRepository _userRepository;
-        private IUserRepository _roleRepository;
+        private IRoleRepository _roleRepository;
 
         public RepositoryManager(WebApiDbContext webApiDbContext)
         {
@@ -26,6 +22,23 @@ namespace Repository
 
                 return _userRepository;
             }
+        }
+        public IRoleRepository Roles
+        {
+            get
+            {
+                if (_roleRepository == null)
+                    _roleRepository = new RoleRepository(_webApiDbContext);
+
+                return _roleRepository;
+            }
+        }
+        public Task SaveAsync()
+        {
+            if (_webApiDbContext.ChangeTracker.HasChanges())
+                return _webApiDbContext.SaveChangesAsync();
+
+            return Task.CompletedTask;
         }
     }
 }

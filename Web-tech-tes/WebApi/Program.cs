@@ -25,7 +25,8 @@ namespace WebApi
                 builder.Services.ConfigureRepositoryManager();
                 builder.Services.ConfigureValidationsFilters();
 
-                builder.Services.AddControllers();
+                builder.Services.AddControllers()
+                    .AddNewtonsoftJson();
 
                 // NLog: Setup NLog for Dependency injection
                 builder.Logging.ClearProviders();

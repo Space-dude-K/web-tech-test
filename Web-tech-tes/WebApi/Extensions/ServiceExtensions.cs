@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using NLog;
 using Repository;
 using WebApi.ActionFilters;
+using WebApi.ActionFilters.Role;
+using WebApi.ActionFilters.User;
 
 namespace WebApi.Extensions
 {
@@ -25,6 +27,7 @@ namespace WebApi.Extensions
             services.AddScoped<ValidateMediaTypeAttribute>();
             services.AddScoped<ValidateUserExistsAttribute>();
             services.AddScoped<ValidateUsersExistsAttribute>();
+            services.AddScoped<ValidateRoleExistsAttribute>();
         }
     }
 }

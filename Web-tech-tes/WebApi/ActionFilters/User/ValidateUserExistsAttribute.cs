@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 
-namespace WebApi.ActionFilters
+namespace WebApi.ActionFilters.User
 {
     public class ValidateUserExistsAttribute : IAsyncActionFilter
     {
         private readonly IRepositoryManager _repository;
         private readonly ILogger<ValidateUserExistsAttribute> _logger;
-        public ValidateUserExistsAttribute(IRepositoryManager repository, 
+        public ValidateUserExistsAttribute(IRepositoryManager repository,
             ILogger<ValidateUserExistsAttribute> logger)
         {
             _repository = repository;

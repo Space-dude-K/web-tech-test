@@ -36,8 +36,8 @@ namespace Repository
                 .ToPagedList(users, userParameters.PageNumber, userParameters.PageSize);
         }
         public async Task<PagedList<User>> GetUsersWithRolesAsync(
-            UserParameters userParameters, 
-            RoleParameters roleParameters, 
+            UserParameters userParameters,
+            RoleParameters roleParameters,
             bool trackChanges)
         {
             var users = await FindAll(trackChanges)
@@ -57,5 +57,6 @@ namespace Repository
                 .Include(e => e.Roles.OrderBy(r => r.Name))
              .SingleOrDefaultAsync();
         }
+
     }
 }

@@ -41,7 +41,8 @@ namespace Entities
                 new User() { Id = 4, Age = 21, Email = "fasd@mail.ru", Name = "Alex" },
                 new User() { Id = 5, Age = 22, Email = "bbsd@mail.ru", Name = "Steve" },
                 new User() { Id = 6, Age = 22, Email = "basd@mail.ru", Name = "Steve" },
-                new User() { Id = 7, Age = 22, Email = "basd@mail.ru", Name = "Steve" }
+                new User() { Id = 7, Age = 22, Email = "basd@mail.ru", Name = "Steve" },
+                new User() { Id = 8, Age = 23, Email = "qqqd@mail.ru", Name = "Steve" },
             };
             modelBuilder.Entity<User>().HasData(users);
 
@@ -56,7 +57,8 @@ namespace Entities
                 new { RoleId = 4, UserId = 4 },
                 new { RoleId = 1, UserId = 5 },
                 new { RoleId = 2, UserId = 6 },
-                new { RoleId = 2, UserId = 7 }
+                new { RoleId = 2, UserId = 7 },
+                new { RoleId = 1, UserId = 8 }
                 );
         }
         public DbSet<User> Users { get; set; }

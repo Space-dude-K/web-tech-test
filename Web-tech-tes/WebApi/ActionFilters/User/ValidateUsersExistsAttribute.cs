@@ -4,7 +4,7 @@ using Repository;
 using Entities.RequestFeatures.Role;
 using Entities.RequestFeatures.User;
 
-namespace WebApi.ActionFilters
+namespace WebApi.ActionFilters.User
 {
     public class ValidateUsersExistsAttribute : IAsyncActionFilter
     {
@@ -34,7 +34,7 @@ namespace WebApi.ActionFilters
             }
             else
             {
-                var msg = $"{usersFromDb.Count} was found in the database.";
+                var msg = $"{usersFromDb.Count} users was found in the database.";
                 _logger.LogInformation(msg);
                 context.HttpContext.Items.Add("users", usersFromDb);
                 await next();
