@@ -25,6 +25,7 @@ namespace WebApi.ActionFilters.User
                 var msg = $"User with id: {id} doesn't exist in the database.";
                 _logger.LogInformation(msg);
                 context.Result = new NotFoundObjectResult(msg);
+                return;
             }
             else
             {

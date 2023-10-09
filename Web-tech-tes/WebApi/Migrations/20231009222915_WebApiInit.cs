@@ -7,7 +7,7 @@
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class WebApiDbInit : Migration
+    public partial class WebApiInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

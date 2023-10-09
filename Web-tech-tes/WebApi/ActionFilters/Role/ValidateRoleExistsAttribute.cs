@@ -25,6 +25,7 @@ namespace WebApi.ActionFilters.Role
                 var msg = $"Role with id: {id} doesn't exist in the database.";
                 _logger.LogInformation(msg);
                 context.Result = new NotFoundObjectResult(msg);
+                return;
             }
             else
             {

@@ -2,6 +2,7 @@
 {
     public abstract class RoleManipulationDTO
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
+        //public string Name { get; set; }
     }
 }

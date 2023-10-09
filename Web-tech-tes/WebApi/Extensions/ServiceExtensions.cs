@@ -1,7 +1,5 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using NLog;
 using Repository;
 using WebApi.ActionFilters;
 using WebApi.ActionFilters.Role;
@@ -28,6 +26,7 @@ namespace WebApi.Extensions
             services.AddScoped<ValidateUserExistsAttribute>();
             services.AddScoped<ValidateUsersExistsAttribute>();
             services.AddScoped<ValidateRoleExistsAttribute>();
+            services.AddScoped<ValidateRoleExistFromPatchObjectAttribute>();
         }
     }
 }

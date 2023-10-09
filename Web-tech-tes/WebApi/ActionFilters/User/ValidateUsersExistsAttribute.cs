@@ -31,6 +31,7 @@ namespace WebApi.ActionFilters.User
                 var msg = $"No users in the database.";
                 _logger.LogInformation(msg);
                 context.Result = new NotFoundObjectResult(msg);
+                return;
             }
             else
             {

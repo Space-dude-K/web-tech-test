@@ -18,6 +18,10 @@ namespace WebApi.MapperProfiles
             CreateMap<User, UserUpdateDTO>();
             CreateMap<User, UserUpdateDTO>()
                 .ReverseMap();
+
+            CreateMap<Role, RoleDTO>();
+            CreateMap<Role, RoleDTO>()
+                .ReverseMap();
         }
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Repository;
+using System.Dynamic;
+using System.Text.RegularExpressions;
 using WebApi.ActionFilters;
 using WebApi.ActionFilters.Role;
 using WebApi.ActionFilters.User;
@@ -93,19 +95,11 @@ namespace WebApi.Controllers
         //[ServiceFilter(typeof(ValidateRoleExistsAttribute))]
         //[ServiceFilter(typeof(ValidationFilterAttribute))]
         [ServiceFilter(typeof(ValidateUserExistsAttribute))]
+        [ServiceFilter(typeof(ValidateRoleExistFromPatchObjectAttribute))]
         public async Task<IActionResult> AddRoleToUser(int userId, 
             [FromBody] JsonPatchDocument<UserUpdateDTO> patchDoc)
         {
             var userFromDb = HttpContext.Items["user"] as User;
-
-            if (patchDoc == null)
-            {
-                _logger.LogError("patchDoc object sent from client is null.");
-                return BadRequest("patchDoc object is null");
-            }
-
-            // TODO  role validation
-            //var roleExist = _repository.Roles.GetRoleAsync(patchDoc.)
 
             var userToPatch = _mapper.Map<UserUpdateDTO>(userFromDb);
 
@@ -119,6 +113,56 @@ namespace WebApi.Controllers
             }
 
             _mapper.Map(userToPatch, userFromDb);
+
+            await _repository.SaveAsync();
+
+            return NoContent();
+        }
+        [HttpPut("{userId}", Name = "AddRoleToUser")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(422)]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [ServiceFilter(typeof(ValidateUserExistsAttribute))]
+        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO user)
+        {
+            var userFromDb = HttpContext.Items["user"] as User;
+
+            TryValidateModel(user);
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the patch document");
+                return UnprocessableEntity(ModelState);
+            }
+
+            _mapper.Map(user, userFromDb);
+
+            await _repository.SaveAsync();
+
+            return NoContent();
+        }
+        /// <summary>
+        /// Deletes existing user
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <response code="204">If user was successfully deleted</response>
+        /// <response code="400">If Accept header is missing</response>
+        /// <response code="401">If unauthorized</response>
+        /// <response code="404">If user doesn't exist</response>
+        [HttpDelete("{userId}", Name = "DeleteUserById")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [ServiceFilter(typeof(ValidateUserExistsAttribute))]
+        public async Task<IActionResult> DeleteUserById(int userId)
+        {
+            _logger.LogDebug($"Delete user: {userId} request");
+
+            var userFromDb = HttpContext.Items["user"] as User;
+
+            _repository.Users.DeleteUser(userFromDb);
 
             await _repository.SaveAsync();
 
